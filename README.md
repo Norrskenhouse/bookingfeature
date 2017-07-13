@@ -8,6 +8,28 @@ Stupid simple, super tiny API that lets you book events on certain days. To auth
 * Ruby 2.4.1
 * PostgreSQL > 9.0
 
+## API Client
+
+You can fetch the API-client at `/lunch-and-learn.js`.
+
+```js
+// Post event
+var eventData = { name: 'buren' };
+LunchAndLearn.postEvent(eventData, function(responseData) {
+  console.log(responseData);
+});
+
+// Get events
+LunchAndLearn.getEvents(function(responseData) {
+  console.log(responseData);
+});
+
+// Get bookings
+LunchAndLearn.getBookings(function(responseData) {
+  console.log(responseData);
+});
+```
+
 ## API documentation
 
 `GET /events.json`:
@@ -15,7 +37,7 @@ Stupid simple, super tiny API that lets you book events on certain days. To auth
 ```json
 [{
   "id": 1,
-  "name": "Just Arrived",
+  "name": "buren",
   "weekday_name": "Tuesday",
   "week_number": 29,
   "starts_at": "2017-07-18T00:10:15.000Z",
@@ -23,7 +45,7 @@ Stupid simple, super tiny API that lets you book events on certain days. To auth
 },
 {
   "id": 2,
-  "name": "Just Arrived",
+  "name": "buren",
   "weekday_name": "Tuesday",
   "week_number": 30,
   "starts_at": "2017-07-25T00:10:15.000Z",
@@ -42,7 +64,7 @@ Stupid simple, super tiny API that lets you book events on certain days. To auth
     },
     "29": {
       "available": false,
-      "name": "Just Arrived"
+      "name": "buren"
     }
   }]
 }
