@@ -1,24 +1,94 @@
-# README
+# README - Norrsken Lunch & Learn
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Stupid simple, super tiny API that lets you book events on certain days. To auth and no fuss.
 
-Things you may want to cover:
+## Dependencies
 
-* Ruby version
+* Rails 5.1
+* Ruby 2.4.1
+* PostgreSQL > 9.0
 
-* System dependencies
+## API documentation
 
-* Configuration
+`GET /events.json`:
 
-* Database creation
+```json
+[{
+  "id": 1,
+  "name": "Just Arrived",
+  "weekday_name": "Tuesday",
+  "week_number": 29,
+  "starts_at": "2017-07-18T00:10:15.000Z",
+  "created_at": "2017-07-13T15:19:02.794Z"
+},
+{
+  "id": 2,
+  "name": "Just Arrived",
+  "weekday_name": "Tuesday",
+  "week_number": 30,
+  "starts_at": "2017-07-25T00:10:15.000Z",
+  "created_at": "2017-07-25T15:19:04.844Z"
+}]
+```
 
-* Database initialization
+`GET /events/bookings.json`:
 
-* How to run the test suite
+```json
+{
+  "weeks": [{
+    "28": {
+      "available": true,
+      "name": null
+    },
+    "29": {
+      "available": false,
+      "name": "Just Arrived"
+    }
+  }]
+}
+```
 
-* Services (job queues, cache servers, search engines, etc.)
+_It returns entries ~12 weeks to the future, the above example has been clipped for brevity._
 
-* Deployment instructions
+`POST /events.json`:
 
-* ...
+_Request_
+
+```json
+{
+	"event": {
+		"name": "Hi",
+		"starts_at": "2017-07-11"
+	}
+}
+```
+
+_Successful response_:
+
+```json
+{
+  "status": 201,
+  "message": "Successfully created event!"
+}
+```
+
+_Error response_:
+
+```json
+{
+    "status": 422,
+    "errors": [
+        "Starts at there is already an event planned for this day"
+    ]
+}
+```
+
+## Deploy
+
+The easiest way to get this app deployed is to put on Heroku:
+
+```
+# cd into the applications root folder
+$ heroku create <your_name>
+$ heroku run rails db:migrate
+```

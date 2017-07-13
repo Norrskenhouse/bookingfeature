@@ -23,7 +23,7 @@ class EventsController < ApplicationController
       }
     end
 
-    render json: data.merge!(events_by_week)
+    render json: { weeks: data.merge!(events_by_week) }
   end
 
   def index
@@ -36,7 +36,7 @@ class EventsController < ApplicationController
     if @event.save
       render json: { status: 201, message: 'Successfully created event!' }
     else
-      render json: { errors: @event.errors.full_messages }
+      render json: { status: 422, errors: @event.errors.full_messages }
     end
   end
 
