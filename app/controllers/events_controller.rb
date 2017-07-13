@@ -1,6 +1,31 @@
 class EventsController < ApplicationController
   protect_from_forgery with: :exception, unless: -> { request.format.json? }
 
+  WEEKS_TO_THE_FUTURE = 12
+
+  def bookings
+    week_number = Time.zone.now.strftime('%U').to_i
+
+    data = {}
+    week_number.upto(week_number + WEEKS_TO_THE_FUTURE).each do |week_number|
+      data[week_number] = {
+        available: true,
+        name: nil
+      }
+    end
+
+    events = Event.between(:starts_at, Time.zone.now, WEEKS_TO_THE_FUTURE.weeks.from_now)
+    events_by_week = {}
+    events.each do |event|
+      events_by_week[event.week_number] = {
+        available: false,
+        name: event.name
+      }
+    end
+
+    render json: data.merge!(events_by_week)
+  end
+
   def index
     @events = Event.future
   end
