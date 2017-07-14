@@ -3,7 +3,7 @@ class EventsController < ApplicationController
 
   WEEKS_TO_THE_FUTURE = 12
 
-  def bookings
+  def slots
     week_number = Time.zone.now.strftime('%U').to_i
 
     data = {}

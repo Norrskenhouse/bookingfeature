@@ -13,20 +13,26 @@ Stupid simple, super tiny API that lets you book events on certain days. To auth
 You can fetch the API-client at `/lunch-and-learn.js`.
 
 ```js
+// Configure
+LaL.Client.baseURL = 'http://localhost:3000';
+
 // Post event
-var eventData = { name: 'buren' };
-LunchAndLearn.postEvent(eventData, function(responseData) {
+var eventData = { name: "buren", startsAt: "2017-07-07" };
+LaL.Client.postEvent(eventData, function(responseData) {
   console.log(responseData);
 });
 
 // Get events
-LunchAndLearn.getEvents(function(responseData) {
+LaL.Client.getEvents(function(responseData) {
   console.log(responseData);
 });
 
-// Get bookings
-LunchAndLearn.getBookings(function(responseData) {
+// Get event slots
+LaL.Client.getEventSlots(function(responseData) {
   console.log(responseData);
+
+  var slots = new LaL.EventSlots(responseData);
+  slots.isWeekAvailable(28);
 });
 ```
 
@@ -53,7 +59,7 @@ LunchAndLearn.getBookings(function(responseData) {
 }]
 ```
 
-`GET /events/bookings.json`:
+`GET /events/slots.json`:
 
 ```json
 {
